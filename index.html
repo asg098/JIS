@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYAYASETU - Court Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--light);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .auth-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .content-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .content-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .case-item {
+            padding: 20px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .case-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .case-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .case-details {
+            margin-top: 10px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .case-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .role-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-citizen { background: #dbeafe; color: #1e40af; }
+        .role-lawyer { background: #fef3c7; color: #d97706; }
+        .role-judge { background: #e9d5ff; color: #7c3aed; }
+
+        .quick-actions {
+            display: grid;
+            gap: 15px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--light);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 600;
+        }
+
+        .hearing-item {
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: var(--light);
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .document-list {
+            margin-top: 20px;
+        }
+
+        .document-item {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-list {
+            margin-top: 20px;
+        }
+
+        .task-item {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        #calendar {
+            margin-top: 20px;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        .loading::after {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div id="authContainer" class="auth-container">
+        <div class="auth-header">
+            <h2>NYAYASETU</h2>
+            <p>Advanced Court Management System</p>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab">Login</button>
+            <button class="auth-tab" id="registerTab">Register</button>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" id="loginEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        </form>
+        <form id="registerForm" class="hidden">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" class="form-control" id="registerName" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" id="registerEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control" id="registerPassword" required>
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select class="form-control" id="registerRole" required>
+                    <option value="">Select Role</option>
+                    <option value="citizen">Citizen</option>
+                    <option value="lawyer">Lawyer</option>
+                    <option value="judge">Judge</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+        </form>
+        <div id="authMessage"></div>
+    </div>
+    <div id="dashboardContainer" class="dashboard">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <h1>NYAYASETU</h1>
+                </div>
+                <div class="header-actions">
+                    <span id="userNameDisplay"></span>
+                    <span id="userRoleBadge"></span>
+                    <button class="btn btn-primary btn-sm" onclick="openEditProfileModal()">Edit Profile</button>
+                    <button class="btn btn-danger" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+            <div class="welcome-banner">
+                <h2 id="welcomeText">Welcome to NYAYASETU</h2>
+                <p>Advanced Court Management System</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCases">0</div>
+                    <div class="stat-label">Total Cases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeCases">0</div>
+                    <div class="stat-label">Active Cases</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="upcomingHearings">0</div>
+                    <div class="stat-label">Upcoming Hearings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="closedCases">0</div>
+                    <div class="stat-label">Closed Cases</div>
+                </div>
+            </div>
+            <div class="content-card">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions" id="quickActions"></div>
+            </div>
+            <div class="content-card">
+                <h3 id="casesTitle">My Cases</h3>
+                <div class="search-bar">
+                    <input type="text" id="caseSearch" placeholder="Search cases..." oninput="searchCases()">
+                </div>
+                <div id="casesList" class="loading"></div>
+            </div>
+        </div>
+    </div>
+    <div id="fileCaseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>File New Case</h3>
+                <button class="close-btn" onclick="closeModal('fileCaseModal')">&times;</button>
+            </div>
+            <form id="fileCaseForm">
+                <div class="form-group">
+                    <label>Case Title</label>
+                    <input type="text" class="form-control" id="caseTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Case Type</label>
+                    <select class="form-control" id="caseType" required>
+                        <option value="civil">Civil</option>
+                        <option value="criminal">Criminal</option>
+                        <option value="family">Family</option>
+                        <option value="property">Property</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Court Type</label>
+                    <select class="form-control" id="courtType" required>
+                        <option value="district_court">District Court</option>
+                        <option value="high_court">High Court</option>
+                        <option value="sessions_court">Sessions Court</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Court Location</label>
+                    <input type="text" class="form-control" id="courtLocation" required>
+                </div>
+                <div class="form-group">
+                    <label>Defendant Name</label>
+                    <input type="text" class="form-control" id="defendantName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" id="caseDescription" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Case</button>
+            </form>
+        </div>
+    </div>
+    <div id="scheduleHearingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule Hearing</h3>
+                <button class="close-btn" onclick="closeModal('scheduleHearingModal')">&times;</button>
+            </div>
+            <form id="scheduleHearingForm">
+                <div class="form-group">
+                    <label>Select Case</label>
+                    <select class="form-control" id="hearingCaseSelect" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Hearing Date</label>
+                    <input type="date" class="form-control" id="hearingDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Hearing Time</label>
+                    <input type="time" class="form-control" id="hearingTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Court Room</label>
+                    <input type="text" class="form-control" id="courtRoom" required>
+                </div>
+                <div class="form-group">
+                    <label>Hearing Type</label>
+                    <select class="form-control" id="hearingType" required>
+                        <option value="initial">Initial Hearing</option>
+                        <option value="evidence">Evidence</option>
+                        <option value="argument">Arguments</option>
+                        <option value="final">Final Hearing</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Video Link (Optional)</label>
+                    <input type="url" class="form-control" id="videoLink">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Schedule</button>
+            </form>
+        </div>
+    </div>
+    <div id="allCasesModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <div class="modal-header">
+                <h3>All Cases</h3>
+                <button class="close-btn" onclick="closeModal('allCasesModal')">&times;</button>
+            </div>
+            <div id="allCasesContent"></div>
+            <button class="btn btn-primary" onclick="generateCaseReport()">Generate PDF Report</button>
+        </div>
+    </div>
+    <div id="caseDetailsModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h3>Case Details</h3>
+                <button class="close-btn" onclick="closeModal('caseDetailsModal')">&times;</button>
+            </div>
+            <div id="caseDetailsContent"></div>
+            <div class="form-group">
+                <label>Upload Document</label>
+                <input type="file" id="documentFile">
+                <button class="btn btn-primary" onclick="uploadDocument()">Upload</button>
+                <div id="uploadProgress"></div>
+            </div>
+            <div class="document-list" id="documentList"></div>
+            <h4>Tasks</h4>
+            <form id="addTaskForm">
+                <input type="text" id="taskDescription" placeholder="Task description" required>
+                <button type="submit" class="btn btn-success btn-sm">Add Task</button>
+            </form>
+            <div class="task-list" id="taskList"></div>
+            <h4>Audit Logs</h4>
+            <div id="auditLogs"></div>
+        </div>
+    </div>
+    <div id="hearingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Hearings</h3>
+                <button class="close-btn" onclick="closeModal('hearingsModal')">&times;</button>
+            </div>
+            <div id="hearingsContent"></div>
+        </div>
+    </div>
+    <div id="assignLawyerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Assign Lawyer</h3>
+                <button class="close-btn" onclick="closeModal('assignLawyerModal')">&times;</button>
+            </div>
+            <form id="assignLawyerForm">
+                <div class="form-group">
+                    <label>Select Lawyer</label>
+                    <select class="form-control" id="lawyerSelect" required></select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Assign</button>
+            </form>
+        </div>
+    </div>
+    <div id="calendarModal" class="modal">
+        <div class="modal-content" style="max-width: 1200px;">
+            <div class="modal-header">
+                <h3>Hearings Calendar</h3>
+                <button class="close-btn" onclick="closeModal('calendarModal')">&times;</button>
+            </div>
+            <div id="calendar"></div>
+        </div>
+    </div>
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="close-btn" onclick="closeModal('editProfileModal')">&times;</button>
+            </div>
+            <form id="editProfileForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="editEmail" required disabled>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, updateDoc, Timestamp, onSnapshot, arrayUnion } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdqc1C8LPVj4zqvWJWJWMrXhPad20MZCw",
+            authDomain: "idcourt-cb58f.firebaseapp.com",
+            projectId: "idcourt-cb58f",
+            storageBucket: "idcourt-cb58f.appspot.com",
+            messagingSenderId: "941086914513",
+            appId: "1:941086914513:web:8edad96b7e9f0dd4be12f0",
+            measurementId: "G-YQMJ6KXGBR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        let currentUser = null;
+        let currentUserData = null;
+        let allCases = [];
+        let allHearings = [];
+        let currentCaseId = null;
+        let lawyers = [];
+
+        // Tab Switching
+        document.getElementById('loginTab').addEventListener('click', () => {
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginTab').classList.add('active');
+            document.getElementById('registerTab').classList.remove('active');
+        });
+
+        document.getElementById('registerTab').addEventListener('click', () => {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('registerTab').classList.add('active');
+            document.getElementById('loginTab').classList.remove('active');
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                showMessage('Logged out successfully', 'success', 'authMessage');
+            } catch (error) {
+                console.error('Logout error:', error);
+                showMessage('Error logging out: ' + error.message, 'danger', 'authMessage');
+            }
+        });
+
+        // Auth State
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+                showDashboard();
+            } else {
+                showAuth();
+            }
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) return showMessage('Email and password required', 'danger', 'authMessage');
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showMessage('Login successful', 'success', 'authMessage');
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage('Error logging in: ' + error.message, 'danger', 'authMessage');
+            }
+        });
+
+        // Register
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const role = document.getElementById('registerRole').value;
+            if (!name || !email || !password || !role) return showMessage('All fields required', 'danger', 'authMessage');
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    fullName: name,
+                    email: email,
+                    role: role,
+                    status: 'pending_verification',
+                    createdAt: serverTimestamp()
+                });
+                await logAudit('user_created', { userId: userCredential.user.uid, role });
+                showMessage('Registration successful', 'success', 'authMessage');
+            } catch (error) {
+                console.error('Register error:', error);
+                showMessage('Error registering: ' + error.message, 'danger', 'authMessage');
+            }
+        });
+
+        // Load User Data
+        async function loadUserData() {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    currentUserData = userDoc.data();
+                    document.getElementById('userNameDisplay').textContent = currentUserData.fullName;
+                    document.getElementById('welcomeText').textContent = `Welcome ${currentUserData.fullName}`;
+                    const badge = document.getElementById('userRoleBadge');
+                    badge.className = `role-badge role-${currentUserData.role}`;
+                    badge.textContent = currentUserData.role;
+                    loadQuickActions();
+                    await loadLawyers();
+                    listenToCases();
+                    listenToHearings();
+                } else {
+                    showMessage('User data not found', 'danger', 'authMessage');
+                    await signOut(auth);
+                }
+            } catch (error) {
+                console.error('Load user data error:', error);
+                showMessage('Error loading user data', 'danger', 'authMessage');
+            }
+        }
+
+        // Load Lawyers
+        async function loadLawyers() {
+            try {
+                const q = query(collection(db, 'users'), where('role', '==', 'lawyer'));
+                const snapshot = await getDocs(q);
+                lawyers = [];
+                snapshot.forEach(d => lawyers.push({ id: d.id, ...d.data() }));
+            } catch (error) {
+                console.error('Load lawyers error:', error);
+                showMessage('Error loading lawyers', 'danger');
+            }
+        }
+
+        // Load Quick Actions
+        function loadQuickActions() {
+            const actions = document.getElementById('quickActions');
+            let html = '';
+            if (currentUserData.role === 'citizen' || currentUserData.role === 'lawyer') {
+                html += `
+                    <button class="action-btn" onclick="openModal('fileCaseModal')">
+                        <div><strong>File New Case</strong></div>
+                    </button>
+                    <button class="action-btn" onclick="viewAllCasesAction()">
+                        <div><strong>View All Cases</strong></div>
+                    </button>
+                    <button class="action-btn" onclick="viewHearingsAction()">
+                        <div><strong>View Hearings</strong></div>
+                    </button>
+                    <button class="action-btn" onclick="openCalendarModal()">
+                        <div><strong>View Calendar</strong></div>
+                    </button>
+                `;
+            } if (currentUserData.role === 'judge') {
+                html += `
+                    <button class="action-btn" onclick="viewAllCasesAction()">
+                        <div><strong>View All Cases</strong></div>
+                    </button>
+                    <button class="action-btn" onclick="openScheduleHearing()">
+                        <div><strong>Schedule Hearing</strong></div>
+                    </button>
+                    <button class="action-btn" onclick="viewHearingsAction()">
+                        <div><strong>View Hearings</strong></div>
+                    </button>
+                    <button class="action-btn" onclick="openCalendarModal()">
+                        <div><strong>View Calendar</strong></div>
+                    </button>
+                `;
+            }
+            actions.innerHTML = html;
+        }
+
+        // Real-time Cases Listener
+        function listenToCases() {
+            let q;
+            if (currentUserData.role === 'judge') {
+                q = query(collection(db, 'cases'));
+            } else if (currentUserData.role === 'lawyer') {
+                q = query(collection(db, 'cases'), where('lawyerIds', 'array-contains', currentUser.uid));
+            } else {
+                q = query(collection(db, 'cases'), where('plaintiffId', '==', currentUser.uid));
+            }
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                allCases = [];
+                snapshot.forEach(doc => allCases.push({ id: doc.id, ...doc.data() }));
+                displayCases(allCases);
+                updateStats(allCases);
+            }, (error) => {
+                console.error('Cases listener error:', error);
+                showMessage('Error loading cases', 'danger');
+                document.getElementById('casesList').innerHTML = '<p>Error loading cases</p>';
+            });
+        }
+
+        // Display Cases
+        function displayCases(cases) {
+            const list = document.getElementById('casesList');
+            list.classList.remove('loading');
+            if (cases.length === 0) {
+                list.innerHTML = '<p>No cases found</p>';
+                return;
+            }
+            list.innerHTML = cases.map(c => `
+                <div class="case-item">
+                    <div class="case-header">
+                        <div class="case-number">${c.caseNumber || c.id.substr(0, 8)}</div>
+                        <span class="case-status">${c.status}</span>
+                    </div>
+                    <div class="case-details">
+                        <strong>${c.title}</strong><br>
+                        Type: ${c.caseType} | Court: ${c.courtType}<br>
+                        Location: ${c.courtLocation}
+                    </div>
+                    <div class="case-actions">
+                        <button class="btn btn-primary btn-sm" onclick="viewCaseDetails('${c.id}')">View Details</button>
+                        ${currentUserData.role === 'citizen' ? `<button class="btn btn-warning btn-sm" onclick="openAssignLawyer('${c.id}')">Assign Lawyer</button>` : ''}
+                        ${currentUserData.role === 'judge' ? `
+                            <button class="btn btn-success btn-sm" onclick="updateCaseStatusAction('${c.id}', 'scheduled')">Approve</button>
+                            <button class="btn btn-warning btn-sm" onclick="updateCaseStatusAction('${c.id}', 'ongoing')">Mark Ongoing</button>
+                            <button class="btn btn-danger btn-sm" onclick="updateCaseStatusAction('${c.id}', 'closed')">Close</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search Cases
+        window.searchCases = () => {
+            const searchTerm = document.getElementById('caseSearch').value.toLowerCase();
+            const filtered = allCases.filter(c => 
+                c.title.toLowerCase().includes(searchTerm) || 
+                (c.caseNumber || '').toLowerCase().includes(searchTerm) ||
+                c.description.toLowerCase().includes(searchTerm)
+            );
+            displayCases(filtered);
+        };
+
+        // Update Stats
+        function updateStats(cases) {
+            document.getElementById('totalCases').textContent = cases.length;
+            document.getElementById('activeCases').textContent = cases.filter(c => c.status !== 'closed').length;
+            document.getElementById('closedCases').textContent = cases.filter(c => c.status === 'closed').length;
+            loadHearingsCount();
+        }
+
+        // Real-time Hearings Listener
+        function listenToHearings() {
+            let q;
+            if (currentUserData.role === 'judge') {
+                q = query(collection(db, 'hearings'), where('judgeId', '==', currentUser.uid));
+            } else {
+                q = query(collection(db, 'hearings'), where('participants', 'array-contains', currentUser.uid));
+            }
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                allHearings = [];
+                snapshot.forEach(doc => allHearings.push({ id: doc.id, ...doc.data() }));
+                loadHearingsCount();
+            }, (error) => {
+                console.error('Hearings listener error:', error);
+                showMessage('Error loading hearings', 'danger');
+            });
+        }
+
+        // Load Upcoming Hearings Count
+        async function loadHearingsCount() {
+            try {
+                const upcoming = allHearings.filter(h => h.status === 'scheduled' && new Date(h.hearingDateString) > new Date());
+                document.getElementById('upcomingHearings').textContent = upcoming.length;
+            } catch (error) {
+                console.error('Hearings count error:', error);
+                document.getElementById('upcomingHearings').textContent = '0';
+            }
+        }
+
+        // File Case
+        document.getElementById('fileCaseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return showMessage('Not logged in', 'danger');
+            try {
+                const caseData = {
+                    title: document.getElementById('caseTitle').value.trim(),
+                    caseType: document.getElementById('caseType').value,
+                    courtType: document.getElementById('courtType').value,
+                    courtLocation: document.getElementById('courtLocation').value.trim(),
+                    defendantName: document.getElementById('defendantName').value.trim(),
+                    description: document.getElementById('caseDescription').value.trim(),
+                    plaintiffId: currentUser.uid,
+                    status: 'filed',
+                    filingDate: serverTimestamp(),
+                    filingYear: new Date().getFullYear(),
+                    createdAt: serverTimestamp(),
+                    lawyerIds: currentUserData.role === 'lawyer' ? [currentUser.uid] : [],
+                    documents: [],
+                    tasks: [],
+                    auditLogs: []
+                };
+                if (!caseData.title || !caseData.description || !caseData.courtLocation || !caseData.defendantName) {
+                    throw new Error('All fields are required');
+                }
+                console.log('Filing case with data:', caseData);
+                const docRef = await addDoc(collection(db, 'cases'), caseData);
+                const caseNumber = `${caseData.courtType.toUpperCase()}/${caseData.filingYear}/${docRef.id.substr(0, 6)}`;
+                await updateDoc(doc(db, 'cases', docRef.id), { caseNumber });
+                await logAudit('case_filed', { caseId: docRef.id, userId: currentUser.uid }, docRef.id);
+                showMessage('Case filed successfully', 'success');
+                closeModal('fileCaseModal');
+                document.getElementById('fileCaseForm').reset();
+            } catch (error) {
+                console.error('Filing error:', error);
+                showMessage('Error filing case: ' + error.message, 'danger');
+            }
+        });
+
+        // Schedule Hearing
+        window.openScheduleHearing = async () => {
+            try {
+                const select = document.getElementById('hearingCaseSelect');
+                select.innerHTML = '<option value="">Select Case</option>' + 
+                    allCases.map(c => `<option value="${c.id}">${c.caseNumber || c.id.substr(0, 8)} - ${c.title}</option>`).join('');
+                openModal('scheduleHearingModal');
+            } catch (error) {
+                console.error('Error loading cases for hearing:', error);
+                showMessage('Error loading cases', 'danger');
+            }
+        };
+
+        document.getElementById('scheduleHearingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const caseId = document.getElementById('hearingCaseSelect').value;
+                const selectedCase = allCases.find(c => c.id === caseId);
+                if (!selectedCase) throw new Error('Case not found');
+                const hearingDate = document.getElementById('hearingDate').value;
+                const hearingTime = document.getElementById('hearingTime').value;
+                if (!hearingDate || !hearingTime) throw new Error('Date and time required');
+                const hearingData = {
+                    caseId: caseId,
+                    caseNumber: selectedCase.caseNumber,
+                    hearingDate: Timestamp.fromDate(new Date(hearingDate)),
+                    hearingDateString: hearingDate,
+                    hearingTime: hearingTime,
+                    courtRoom: document.getElementById('courtRoom').value.trim(),
+                    hearingType: document.getElementById('hearingType').value,
+                    videoLink: document.getElementById('videoLink').value.trim() || '',
+                    judgeId: currentUser.uid,
+                    status: 'scheduled',
+                    participants: [selectedCase.plaintiffId, ...(selectedCase.lawyerIds || [])],
+                    createdAt: serverTimestamp()
+                };
+                const hearingRef = await addDoc(collection(db, 'hearings'), hearingData);
+                await updateDoc(doc(db, 'cases', caseId), {
+                    status: 'scheduled',
+                    judgeId: currentUser.uid,
+                    nextHearingDate: hearingData.hearingDateString
+                });
+                await logAudit('hearing_scheduled', { hearingId: hearingRef.id, caseId }, caseId);
+                showMessage('Hearing scheduled successfully', 'success');
+                closeModal('scheduleHearingModal');
+                document.getElementById('scheduleHearingForm').reset();
+            } catch (error) {
+                console.error('Scheduling error:', error);
+                showMessage('Error scheduling hearing: ' + error.message, 'danger');
+            }
+        });
+
+        // View Case Details
+        window.viewCaseDetails = async (caseId) => {
+            currentCaseId = caseId;
+            try {
+                const caseDoc = await getDoc(doc(db, 'cases', caseId));
+                if (!caseDoc.exists()) return showMessage('Case not found', 'danger');
+                const caseData = { id: caseDoc.id, ...caseDoc.data() };
+                let plaintiffName = 'Unknown';
+                const plaintiffDoc = await getDoc(doc(db, 'users', caseData.plaintiffId));
+                if (plaintiffDoc.exists()) plaintiffName = plaintiffDoc.data().fullName;
+                let lawyerNames = [];
+                if (caseData.lawyerIds && caseData.lawyerIds.length > 0) {
+                    for (const lid of caseData.lawyerIds) {
+                        const lawyerDoc = await getDoc(doc(db, 'users', lid));
+                        if (lawyerDoc.exists()) lawyerNames.push(lawyerDoc.data().fullName);
+                    }
+                }
+                const hearingsQuery = query(collection(db, 'hearings'), where('caseId', '==', caseId));
+                const hearingsSnapshot = await getDocs(hearingsQuery);
+                const hearings = [];
+                hearingsSnapshot.forEach(doc => hearings.push({ id: doc.id, ...doc.data() }));
+                const hearingsList = hearings.length > 0 
+                    ? hearings.map(h => `
+                        <div class="hearing-item">
+                            <strong>Date:</strong> ${h.hearingDateString} at ${h.hearingTime}<br>
+                            <strong>Court Room:</strong> ${h.courtRoom}<br>
+                            <strong>Type:</strong> ${h.hearingType}<br>
+                            <strong>Status:</strong> ${h.status}<br>
+                            ${h.videoLink ? `<strong>Video Link:</strong> <a href="${h.videoLink}" target="_blank">Join</a>` : ''}
+                        </div>
+                    `).join('')
+                    : '<p>No hearings scheduled</p>';
+                const documentsList = caseData.documents?.length > 0 
+                    ? caseData.documents.map(d => `
+                        <div class="document-item">
+                            <a href="${d.url}" target="_blank">${d.name}</a>
+                            <span>Uploaded: ${new Date(d.uploadedAt.seconds * 1000).toLocaleString()}</span>
+                        </div>
+                    `).join('')
+                    : '<p>No documents</p>';
+                const tasksList = caseData.tasks?.length > 0 
+                    ? caseData.tasks.map(t => `
+                        <div class="task-item">
+                            ${t.description} - Status: ${t.status || 'Pending'}
+                        </div>
+                    `).join('')
+                    : '<p>No tasks</p>';
+                const logsList = caseData.auditLogs?.length > 0 
+                    ? caseData.auditLogs.map(l => `
+                        <div>${l.action} by ${l.userId} at ${new Date(l.timestamp.seconds * 1000).toLocaleString()}</div>
+                    `).join('')
+                    : '<p>No logs</p>';
+                document.getElementById('caseDetailsContent').innerHTML = `
+                    <div>
+                        <h3>${caseData.caseNumber || caseData.id.substr(0, 8)}</h3>
+                        <h4>${caseData.title}</h4>
+                        <div style="margin-top: 20px;">
+                            <p><strong>Plaintiff:</strong> ${plaintiffName}</p>
+                            <p><strong>Defendant:</strong> ${caseData.defendantName}</p>
+                            <p><strong>Lawyers:</strong> ${lawyerNames.join(', ') || 'None'}</p>
+                            <p><strong>Case Type:</strong> ${caseData.caseType}</p>
+                            <p><strong>Court:</strong> ${caseData.courtType}</p>
+                            <p><strong>Location:</strong> ${caseData.courtLocation}</p>
+                            <p><strong>Status:</strong> ${caseData.status}</p>
+                            <p><strong>Filed:</strong> ${caseData.filingYear}</p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <h4>Description</h4>
+                            <p style="background: var(--light); padding: 15px; border-radius: 8px;">
+                                ${caseData.description}
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <h4>Hearings</h4>
+                            ${hearingsList}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('documentList').innerHTML = documentsList;
+                document.getElementById('taskList').innerHTML = tasksList;
+                document.getElementById('auditLogs').innerHTML = logsList;
+                document.getElementById('addTaskForm').onsubmit = async (e) => {
+                    e.preventDefault();
+                    const desc = document.getElementById('taskDescription').value.trim();
+                    if (!desc) return showMessage('Task description required', 'danger');
+                    try {
+                        await updateDoc(doc(db, 'cases', currentCaseId), {
+                            tasks: arrayUnion({ description: desc, status: 'pending', createdAt: serverTimestamp() })
+                        });
+                        await logAudit('task_added', { description: desc }, currentCaseId);
+                        showMessage('Task added', 'success');
+                        document.getElementById('taskDescription').value = '';
+                        viewCaseDetails(currentCaseId);
+                    } catch (error) {
+                        console.error('Add task error:', error);
+                        showMessage('Error adding task', 'danger');
+                    }
+                };
+                openModal('caseDetailsModal');
+            } catch (error) {
+                console.error('Error loading case details:', error);
+                showMessage('Error loading case details', 'danger');
+            }
+        };
+
+        // Upload Document
+        window.uploadDocument = async () => {
+            const file = document.getElementById('documentFile').files[0];
+            if (!file || !currentCaseId) return showMessage('Select a file and open a case', 'danger');
+            try {
+                const storageRef = ref(storage, `documents/${currentCaseId}/${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        document.getElementById('uploadProgress').innerHTML = `Upload: ${progress.toFixed(0)}%`;
+                    },
+                    (error) => {
+                        console.error('Upload error:', error);
+                        showMessage('Upload failed', 'danger');
+                    },
+                    async () => {
+                        const url = await getDownloadURL(uploadTask.snapshot.ref);
+                        await updateDoc(doc(db, 'cases', currentCaseId), {
+                            documents: arrayUnion({ 
+                                name: file.name, 
+                                url, 
+                                uploadedAt: serverTimestamp(), 
+                                uploadedBy: currentUser.uid 
+                            })
+                        });
+                        await logAudit('document_uploaded', { fileName: file.name }, currentCaseId);
+                        showMessage('Document uploaded', 'success');
+                        document.getElementById('uploadProgress').innerHTML = '';
+                        document.getElementById('documentFile').value = '';
+                        viewCaseDetails(currentCaseId);
+                    }
+                );
+            } catch (error) {
+                console.error('Upload document error:', error);
+                showMessage('Error uploading document', 'danger');
+            }
+        };
+
+        // Update Case Status
+        window.updateCaseStatusAction = async (caseId, newStatus) => {
+            try {
+                const updateData = { status: newStatus };
+                if (newStatus === 'scheduled' || newStatus === 'ongoing') {
+                    updateData.judgeId = currentUser.uid;
+                }
+                await updateDoc(doc(db, 'cases', caseId), updateData);
+                await logAudit('status_updated', { newStatus }, caseId);
+                showMessage(`Case status updated to ${newStatus}`, 'success');
+            } catch (error) {
+                console.error('Update status error:', error);
+                showMessage('Error updating status', 'danger');
+            }
+        };
+
+        // Assign Lawyer
+        window.openAssignLawyer = (caseId) => {
+            currentCaseId = caseId;
+            const select = document.getElementById('lawyerSelect');
+            select.innerHTML = '<option value="">Select Lawyer</option>' + 
+                lawyers.map(l => `<option value="${l.id}">${l.fullName}</option>`).join('');
+            openModal('assignLawyerModal');
+        };
+
+        document.getElementById('assignLawyerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const lawyerId = document.getElementById('lawyerSelect').value;
+            if (!lawyerId) return showMessage('Select a lawyer', 'danger');
+            try {
+                await updateDoc(doc(db, 'cases', currentCaseId), {
+                    lawyerIds: arrayUnion(lawyerId)
+                });
+                await logAudit('lawyer_assigned', { lawyerId }, currentCaseId);
+                showMessage('Lawyer assigned', 'success');
+                closeModal('assignLawyerModal');
+            } catch (error) {
+                console.error('Assign lawyer error:', error);
+                showMessage('Error assigning lawyer', 'danger');
+            }
+        });
+
+        // View All Cases
+        window.viewAllCasesAction = async () => {
+            try {
+                const content = document.getElementById('allCasesContent');
+                if (allCases.length === 0) {
+                    content.innerHTML = '<p>No cases found</p>';
+                } else {
+                    content.innerHTML = '<table><thead><tr><th>Case Number</th><th>Title</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead><tbody>' +
+                        allCases.map(c => `
+                            <tr>
+                                <td>${c.caseNumber || c.id.substr(0, 8)}</td>
+                                <td>${c.title}</td>
+                                <td>${c.caseType}</td>
+                                <td>${c.status}</td>
+                                <td><button class="btn btn-primary btn-sm" onclick="viewCaseDetails('${c.id}')">View</button></td>
+                            </tr>
+                        `).join('') +
+                        '</tbody></table>';
+                }
+                openModal('allCasesModal');
+            } catch (error) {
+                console.error('Error viewing all cases:', error);
+                showMessage('Error loading cases', 'danger');
+            }
+        };
+
+        // Generate PDF Report
+        window.generateCaseReport = () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.text('Cases Report', 10, 10);
+                let y = 20;
+                allCases.forEach(c => {
+                    doc.text(`${c.caseNumber || c.id}: ${c.title} - ${c.status}`, 10, y);
+                    y += 10;
+                });
+                doc.save('cases_report.pdf');
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showMessage('Error generating report', 'danger');
+            }
+        };
+
+        // View Hearings
+        window.viewHearingsAction = async () => {
+            try {
+                const content = document.getElementById('hearingsContent');
+                if (allHearings.length === 0) {
+                    content.innerHTML = '<p>No hearings found</p>';
+                } else {
+                    content.innerHTML = allHearings.map(h => `
+                        <div class="hearing-item">
+                            <strong>Case:</strong> ${h.caseNumber}<br>
+                            <strong>Date:</strong> ${h.hearingDateString} at ${h.hearingTime}<br>
+                            <strong>Court Room:</strong> ${h.courtRoom}<br>
+                            <strong>Type:</strong> ${h.hearingType}<br>
+                            <strong>Status:</strong> ${h.status}<br>
+                            ${h.videoLink ? `<a href="${h.videoLink}" target="_blank">Join Virtual</a>` : ''}
+                        </div>
+                    `).join('');
+                }
+                openModal('hearingsModal');
+            } catch (error) {
+                console.error('Error loading hearings:', error);
+                showMessage('Error loading hearings', 'danger');
+            }
+        };
+
+        // Calendar Modal
+        window.openCalendarModal = () => {
+            try {
+                openModal('calendarModal');
+                const calendarEl = document.getElementById('calendar');
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: allHearings.map(h => ({
+                        title: `${h.hearingType} - ${h.caseNumber}`,
+                        start: `${h.hearingDateString}T${h.hearingTime}`
+                    }))
+                });
+                calendar.render();
+            } catch (error) {
+                console.error('Calendar error:', error);
+                showMessage('Error loading calendar', 'danger');
+            }
+        };
+
+        // Edit Profile
+        window.openEditProfileModal = () => {
+            document.getElementById('editName').value = currentUserData.fullName;
+            document.getElementById('editEmail').value = currentUserData.email;
+            openModal('editProfileModal');
+        };
+
+        document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newName = document.getElementById('editName').value.trim();
+            if (!newName) return showMessage('Name required', 'danger');
+            try {
+                await updateDoc(doc(db, 'users', currentUser.uid), { fullName: newName });
+                currentUserData.fullName = newName;
+                document.getElementById('userNameDisplay').textContent = newName;
+                document.getElementById('welcomeText').textContent = `Welcome ${newName}`;
+                showMessage('Profile updated', 'success');
+                closeModal('editProfileModal');
+            } catch (error) {
+                console.error('Profile update error:', error);
+                showMessage('Error updating profile', 'danger');
+            }
+        });
+
+        // Audit Log Function
+        async function logAudit(action, details, caseId = null) {
+            try {
+                const logData = {
+                    action,
+                    userId: currentUser.uid,
+                    details,
+                    timestamp: serverTimestamp()
+                };
+                if (caseId) {
+                    await updateDoc(doc(db, 'cases', caseId), {
+                        auditLogs: arrayUnion(logData)
+                    });
+                } else {
+                    await addDoc(collection(db, 'auditLogs'), logData);
+                }
+            } catch (error) {
+                console.error('Audit log error:', error);
+            }
+        }
+
+        // Modal Functions
+        window.openModal = (modalId) => {
+            document.getElementById(modalId).classList.add('active');
+        };
+
+        window.closeModal = (modalId) => {
+            document.getElementById(modalId).classList.remove('active');
+        };
+
+        // Show Message
+        function showMessage(message, type, targetId = 'authMessage') {
+            const msgEl = document.getElementById(targetId);
+            msgEl.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => msgEl.innerHTML = '', 5000);
+        }
+
+        function showAuth() {
+            document.getElementById('authContainer').style.display = 'block';
+            document.getElementById('dashboardContainer').classList.remove('active');
+        }
+
+        function showDashboard() {
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('dashboardContainer').classList.add('active');
+        }
+    </script>
+</body>
+</html>

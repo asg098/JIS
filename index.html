@@ -723,21 +723,9 @@
         </div>
     </div>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, updateDoc, Timestamp, onSnapshot, arrayUnion } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-storage.js";
+       
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBdqc1C8LPVj4zqvWJWJWMrXhPad20MZCw",
-            authDomain: "idcourt-cb58f.firebaseapp.com",
-            projectId: "idcourt-cb58f",
-            storageBucket: "idcourt-cb58f.appspot.com",
-            messagingSenderId: "941086914513",
-            appId: "1:941086914513:web:8edad96b7e9f0dd4be12f0",
-            measurementId: "G-YQMJ6KXGBR"
-        };
-
+      
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -1444,4 +1432,5 @@
         }
     </script>
 </body>
+
 </html>

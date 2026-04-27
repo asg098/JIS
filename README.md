@@ -1,1 +1,1 @@
-# JIS
+# JUDIQ-AI
